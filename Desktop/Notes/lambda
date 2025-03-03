@@ -1,0 +1,98 @@
+- Lambda is a compute service that let us run code without provisioning or managing servers.
+- With AWS Lambda, we can run code virtually for any type of application or backend service with 0 administration(how lambda is performing, updating its all headache of aWS, not us)
+
+
+AWS lambda manages all administration:- 
+	1. Provisioniong capacity of compute fleet that offers a balance of memory , CPU , network and other resources.
+	2. Server and OS maintenance also managed by AWS.
+	3. High availability and autoscaling
+	4. Monitoring fleet health(one or more lambda health will be monitored by AWS lambda)
+	5. Applying security patches.
+	6. Deploy your code.
+	7. Monitoring and logging our lambda function.
+	8. AWS lambda runs our code on a high available compute infra
+	
+	
+	AWS cluster dashboard, storage class, sample-appinfo, user-journey
+	
+	
+	
+INSTALL helm
+> helm install myhelloworld helloworld
+list helm chart what we are running inside k8s cluster
+> helm list -a 
+to check whether service of our helm chart is running or not
+> kubectl get services
+
+
+
+
+
+
+
+
+NAME                           STATUS   ROLES    AGE   VERSION               LABELS
+ip-10-0-100-203.ec2.internal   Ready    <none>   55m   v1.29.6-eks-1552ad0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.2xlarge,beta.kubernetes.io/os=linux,eks.amazonaws.com/capacityType=ON_DEMAND,eks.amazonaws.com/nodegroup-image=ami-078a88e6816d5e04a,eks.amazonaws.com/nodegroup=nodepool1,failure-domain.beta.kubernetes.io/region=us-east-1,failure-domain.beta.kubernetes.io/zone=us-east-1a,k8s.io/cloud-provider-aws=065bee5c95f5200f5c3abedaf0e561e0,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-10-0-100-203.ec2.internal,kubernetes.io/os=linux,node.kubernetes.io/instance-type=m5.2xlarge,topology.ebs.csi.aws.com/zone=us-east-1a,topology.kubernetes.io/region=us-east-1,topology.kubernetes.io/zone=us-east-1a
+ip-10-0-101-212.ec2.internal   Ready    <none>   55m   v1.29.6-eks-1552ad0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.2xlarge,beta.kubernetes.io/os=linux,eks.amazonaws.com/capacityType=ON_DEMAND,eks.amazonaws.com/nodegroup-image=ami-078a88e6816d5e04a,eks.amazonaws.com/nodegroup=nodepool1,failure-domain.beta.kubernetes.io/region=us-east-1,failure-domain.beta.kubernetes.io/zone=us-east-1b,k8s.io/cloud-provider-aws=065bee5c95f5200f5c3abedaf0e561e0,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-10-0-101-212.ec2.internal,kubernetes.io/os=linux,node.kubernetes.io/instance-type=m5.2xlarge,topology.ebs.csi.aws.com/zone=us-east-1b,topology.kubernetes.io/region=us-east-1,topology.kubernetes.io/zone=us-east-1b
+ip-10-0-102-166.ec2.internal   Ready    <none>   55m   v1.29.6-eks-1552ad0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=m5.2xlarge,beta.kubernetes.io/os=linux,eks.amazonaws.com/capacityType=ON_DEMAND,eks.amazonaws.com/nodegroup-image=ami-078a88e6816d5e04a,eks.amazonaws.com/nodegroup=nodepool1,failure-domain.beta.kubernetes.io/region=us-east-1,failure-domain.beta.kubernetes.io/zone=us-east-1c,k8s.io/cloud-provider-aws=065bee5c95f5200f5c3abedaf0e561e0,kubernetes.io/arch=amd64,kubernetes.io/hostname=ip-10-0-102-166.ec2.internal,kubernetes.io/os=linux,node.kubernetes.io/instance-type=m5.2xlarge,topology.ebs.csi.aws.com/zone=us-east-1c,topology.kubernetes.io/region=us-east-1,topology.kubernetes.io/zone=us-east-1c
+
+
+
+if [ -n "$inactive_providers_revision" ]; then
+  echo "$inactive_providers_revision" | xargs kubectl delete providerrevision
+else
+  echo "No inactive providerrevisions found"
+fi
+
+
+
+
+
+1. allow unregistered targets
+2. schedule :- 
+3. rate schdule builder
+4. window start date
+  # schedule = "cron(0 16 ? * TUE *)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+resource "aws_ssm_maintenance_window" "production" {
+  name     = "eks-${local.asset_id}-mt-window"
+  schedule = "rate(30 days)"
+  duration = 3
+  cutoff   = 1
+  allow_unassociated_targets = true
+  enabled = true
+  start_date   = "2024-09-01T00:30:00Z"  # Start date in UTC
+  schedule_timezone = "UTC"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
