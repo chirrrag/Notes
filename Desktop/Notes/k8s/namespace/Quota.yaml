@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-quota
+  namespace: dev
+spec:
+  hard:  
+    pod: "10"
+    requests.cpu: "4"
+    requests.memory: "5Gi"
+    limits.cpu: "10"
+    limits.memory: 10Gi
+
+# > kubectl create -f quota.yaml
+# Since the blue application and the db-service are in different namespaces. In this case, we need to use the service name along with the namespace to access the database. The FQDN (fully Qualified Domain Name) for the db-service in this example would be db-service.dev.svc.cluster.local.
+
+# Note: You can also access it using the service name and namespace like this: db-service.dev

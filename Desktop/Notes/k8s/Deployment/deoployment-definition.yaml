@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-rs
+  label:
+    app: my-app
+    type: frontend
+spec:
+  template:
+    metadata: 
+      name: myapp-pod
+      labels:
+        app: my-app
+        type: frontend
+    spec:
+      containers:
+        - name: nginx-controller
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: frontend
+
+# kubectl create -f deployment-definition.yaml
+# kubectl get deployments
+# kubectl get rs
+# kubectl get pods

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-rs
+  label:
+    app: my-app
+    type: frontend
+spec:
+  template:
+    metadata: 
+      name: myapp-pod
+      labels:
+        app: my-app
+        type: frontend
+    spec:
+      containers:
+        - name: nginx-controller
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: frontend
+
+# kubectl create -f rs-definition.yaml
+# kubectl get replicaset
+# kubectl get pods
