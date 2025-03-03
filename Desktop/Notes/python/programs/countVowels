@@ -1,0 +1,12 @@
+def count_vowels(input_string):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in input_string if char in vowels)   
+
+vowels = "aeiouAEIOU"
+
+char = "chirag"
+sum = 0
+for c in char:
+    if c in vowels:
+        sum += 1
+print(sum)
