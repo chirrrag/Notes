@@ -1,0 +1,71 @@
+cat data
+
+awk '{print $1}' data
+
+awk '{print $1,$2}' data 
+
+# to see last column
+awk '{print $NF}' data
+
+
+ls -ltr | awk '{print $NF}
+
+
+# give line number to every line
+awk '{print NR, $0}' data
+
+awk '{print NR ": " $0}' data
+
+# awk also used for csv filesby using  "-F" flag
+
+> awk -F,  '{print $4}' country.txt
+> awk -F, '{print $8}' machine-readable-business-employment-data-Jun-2024-quarter.csv
+
+#  conditions in awk
+> awk '{if($0>40000) print $0}' data
+
+> awk '{if($4>0) print $4}' data
+
+# we can also change the values of some column, with awk
+> awk '{if($4=="Pol"){$3=80000} print $0}' data
+means, if name is Pol, set its salary to 80000
+
+# jis line me bhi "d" likha hoga, us line ko print karege
+> awk '/India/ {print $0}' data
+
+
+# row number 8 ka data print karna ho agqar
+> awk 'NR=="8" {print $0}' data
+
+# row number 8 to 10 ka data print karna ho agar
+> awk 'NR=="8",NR=="10" {print $0}' data
+
+# check konsi line empty hai in our file:- 
+> awk 'NF==0 {print NR}' data
+
+# total number of lines in our file
+> awk 'END {print NR}' data
+
+#  we can also use for loop in our awk command
+> awk 'BEGIN {for(i=0;i<=10;i++) print i;}'
+
+# using while loop in awk
+> awk 'BEGIN {while(i<10){i++; print "num is" i}}'
+
+########################
+########################
+########################
+########################
+########################
+# CUT ccommand
+
+character level par processing karne k liye use hoti hai cut command
+# first character in every file
+> cut -c1 data
+# first and 5th character
+> cut -c1,5 data
+# first 5 chars
+cut -c1-5 data
+
+# we can also fetch CSV from cut command using delimiter i.e. -d flag
+> cut -d, -f 2 data

@@ -1,0 +1,20 @@
+kube-state-kube-state-metrics-bd5ddbc7d-v6kbl                     1/1     Running  0             9d
+node-exporter-mcz9h                                               1/1     Running  0             152m
+node-exporter-pkh7f                                               1/1     Running  0             5h8m
+node-exporter-qn842                                               1/1     Running  0             3d15h
+node-exporter-r56ff                                               1/1     Running  0             5h3m
+node-exporter-sxq46                                               1/1     Running  0             14h
+node-exporter-w79c4                                               1/1     Running  0             14h
+node-exporter-wlscw                                               1/1     Running  0             3d15h
+vmagent-victoria-metrics-agent-0                                  2/2     Running  0             5h11m
+vmagent-victoria-metrics-agent-1                                  2/2     Running  0             4m20s
+vmalert-victoria-metrics-alert-server-5d8b545865-pjhzl            2/2     Running  0             9d
+vmcluster-om-victoria-metrics-cluster-vminsert-f458cd99f-gk7s8    2/2     Running  0             9d
+vmcluster-om-victoria-metrics-cluster-vminsert-f458cd99f-svzln    2/2     Running  0             3d
+vmcluster-om-victoria-metrics-cluster-vmselect-765f89f7cd-cvx4n   2/2     Running  0             24h
+vmcluster-om-victoria-metrics-cluster-vmselect-765f89f7cd-v5pdg   2/2     Running  0             4m3s
+vmcluster-om-victoria-metrics-cluster-vmselect-765f89f7cd-xkcvp   2/2     Running  0             3d1h
+
+vmcluster-om-victoria-metrics-cluster-vmstorage-0                 2/2     Running  1 (13d ago)   25d
+vmcluster-om-victoria-metrics-cluster-vmstorage-1                 2/2     Running  0             14d
+vmoperator-victoria-metrics-operator-7d76967b95-hvtl6             1/1     Running  0             2d8h
