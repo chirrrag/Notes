@@ -1,0 +1,17 @@
+apiVersion: s3.aws.crossplane.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    crossplane.io/external-name: crossplane-example-bucket
+  generateName: crossplane-bucket-
+spec:
+  forProvider:
+    locationConstraint: us-east-1
+    objectLockEnabledForBucket: false
+    objectOwnership: BucketOwnerEnforced
+    tagging:
+      tagSet:
+        - key: "slb.com/cluster"
+          value: "ephemeral-7283507-925521a5"
+  providerConfigRef:
+    name: provider-config-aws

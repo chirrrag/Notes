@@ -1,0 +1,102 @@
+
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.x'
+          addToPath: true
+
+      - script: |
+          echo "aws cluster id is: $(AWS_CLUSTER_ID)"
+          echo "cluster name is: $(CLUSTER_NAME)"
+
+          python_output=$(python3 - << 'EOF'
+          import hashlib
+          import os
+
+          sha256 = hashlib.sha256()
+          clusterName = os.getenv("CLUSTER_NAME")
+          clusterId = os.getenv("AWS_CLUSTER_ID")
+
+          if clusterId is None:
+              raise ValueError("AWS_CLUSTER_ID environment variable is not set")
+          if clusterName is None:
+              raise ValueError("CLUSTER_NAME environment variable is not set")
+              
+          sha256.update(clusterId.encode('utf-8'))
+
+          clusterHash = sha256.hexdigest()[:8]
+          print(clusterHash)
+          assetId = clusterName + "-" + clusterHash
+          print(assetId)
+          EOF
+          )
+          cluster_hash=$(echo "$python_output" | sed -n 1p)
+          asset_id=$(echo "$python_output" | sed -n 2p)
+          echo "##vso[task.setvariable variable=CLUSTER_HASH]$cluster_hash"
+          echo "##vso[task.setvariable variable=ASSET_ID]$asset_id"
+        displayName: 'Run Python script and set output as variables'
+        env:
+          CLUSTER_NAME: $(CLUSTER_NAME)
+          AWS_CLUSTER_ID: $(AWS_CLUSTER_ID)
+
+      - script: |
+          echo "Cluster Hash: $(CLUSTER_HASH)"
+          echo "Asset ID: $(ASSET_ID)"
+          # Your bash script can use the variables like this
+          echo "Using Cluster Hash in Bash script: $(CLUSTER_HASH)"
+          echo "Using Asset ID in Bash script: $(ASSET_ID)"
+        displayName: 'Run Bash script and use Python output'
+        env:
+          CLUSTER_HASH: $(CLUSTER_HASH)
+          ASSET_ID: $(ASSET_ID)
+
+      - task: AzureCLI@2
+        displayName: Delete Load Balancers
+        inputs:
+          azureSubscription: ${{ parameters.azureSubscription }}
+          scriptType: bash
+          scriptLocation: inlineScript
+          addSpnToEnvironment: true
+          inlineScript: |
+            echo "login to AWS"
+            set -e
+            export ACCOUNT_ID=${ACCOUNT_ID}
+            export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+            export AWS_ROLE_ARN=${AWS_ROLE_ARN}
+            export AWS_AUTH_PATH=$(Build.SourcesDirectory)/${{ parameters.clusterArtifactRepo }}/$(clusterName)/aws-auth.sh
+
+            if [ ! -f ${AWS_AUTH_PATH} ]; then
+              echo "File ${AWS_AUTH_PATH} not found"
+              exit 1
+            fi
+            export AWS_SHARED_CREDENTIALS_FILE=$(Agent.TempDirectory)/credentials
+            export PROFILE=lightops
+            cat <<EOL > ${AWS_SHARED_CREDENTIALS_FILE}
+            [${PROFILE}]
+            credential_process = /bin/bash ${AWS_AUTH_PATH}
+            EOL
+
+            echo "##vso[task.setvariable variable=AWS_SHARED_CREDENTIALS_FILE]${AWS_SHARED_CREDENTIALS_FILE}"
+            echo "##vso[task.setvariable variable=PROFILE]${PROFILE}"
+            
+            echo "running get caller identity"
+            aws sts get-caller-identity --profile  ${PROFILE}
+            
+            # load balancers tag and value
+            TAG_KEY="kubernetes.io/cluster/${ASSET_ID}"
+            TAG_VALUE="owned"
+            echo "tag key:- ${TAG_KEY}"
+            echo "deleting load balancers"
+            load_balancers=$(aws elb describe-load-balancers --profile ${PROFILE} --query "LoadBalancerDescriptions[*].LoadBalancerName" --output text)
+            # Loop through each load balancer and check its tags
+            for lb in $load_balancers; do
+              # Get the tags for the current load balancer
+              tags=$(aws elb describe-tags --profile ${PROFILE} --load-balancer-names $lb --query "TagDescriptions[*].Tags[?Key=='$TAG_KEY' && Value=='$TAG_VALUE']" --output text)
+              # Check if the tags match the specified key and value
+              if [ -n "$tags" ]; then
+                echo $tags
+                echo "Load Balancer: $lb"
+                aws elb delete-load-balancer --profile ${PROFILE} --load-balancer-name $lb
+              fi
+            done
+        continueOnError: false
+
