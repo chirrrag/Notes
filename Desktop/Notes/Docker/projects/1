@@ -1,0 +1,28 @@
+   1  apt-get update
+    2  apt-get install openssh-server
+    3  clear
+    4  which vi
+    5  sudo apt list --installed | grep vi
+    6  apt list --installed | grep vi
+    7  apt-get install vi
+    8  vi /etc/ssh/sshd_config
+    9  apt-get install vim
+   10  clear
+   11  vi /etc/ssh/sshd_config
+   12  service --status-all
+   13  service ssh start
+   14  service --status-all
+   15  service ssh enable
+   16  service --status-all
+   17  exit
+   18  cat /etc/shadow
+   19  cat /etc/shadow | grep root
+   20  passwd root
+   21  docker inspect c1 | grep IPAddress
+   22  exit
+   23  service --status-all
+   24  service start ssh
+   25  service ssh start
+   26  service --status-all
+   27  exit
+   28  history
