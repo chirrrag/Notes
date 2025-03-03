@@ -1,0 +1,7 @@
+Terraform
+Chirag has good knowledge on Terraform and has recently completed Terraform certification. Understands data and resource blocks, taint and replace. Written Terraform code for multiple services on AWS. Used Jinja templates to dynamically generate the tf code. Is aware of statefile and using s3 as backend. Do not fully understands how to manage the code and keep environment persistent and avoiding drifts.
+Containerization
+He has not worked much on Docker but understands the components, images, containers, writing dockerfiles. He's currently started learning and working on k8s and got exposure to Istio and ArgoCD, and written some k8s manifests.
+Linux
+Haven't worked much on Linux OS. Said to have written some shell scripts for few requirements. Was getting confused a lot, although he lacks hands-on experience on Linux, Docker, and some AWS services like IAM, VPC, S3, but was able to answer theoretical parts with some help.
+Feedback: Chirag has mostly been working on AWS and Terraform and recently started working on K8s. He's recently obtained Terraform Certification. He understands the requirements and use cases, the flow of SDLC in a project and was able to answer some of the theoretical questions. He lacks experience in managing and troubleshooting issues on servers, haven't worked on Linux in most of his tenure. He needs some more hands-on working experience on some core AWS services, like IAM, S3, EC2, VPC.
